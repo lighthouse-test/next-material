@@ -1,0 +1,33 @@
+{
+  "name": "@lighthouse-test/next",
+  "version": "1.0.0",
+  "author": {
+    "name": "Aceonics Reliable IT Services",
+    "email": "info@aceonics.com"
+  },
+  "description": "Lighthouse reports for frameworks",
+  "homepage": "https://lighthouse-test.github.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lighthouse-test/lighthouse-test.github.io.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lighthouse-test/lighthouse-test.github.io/issues"
+  },
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export"
+  },
+  "dependencies": {
+    "next": "10.1.3",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.3",
+    "typescript": "^4.2.4"
+  }
+}
