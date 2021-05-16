@@ -1,33 +1,41 @@
-import React from "react";
-import { Todo, TYPES } from "./todos";
+import React, { FunctionComponent, useState } from "react";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import Select from "@material-ui/core/Select";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import Checkbox from "@material-ui/core/Checkbox";
+import DateFnsUtils from "@date-io/date-fns";
+import { format } from "date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 
-interface State {
-  todo: Partial<Todo>;
-  types: string[];
-  errors: any;
-}
+import { Todo, TYPES, TodoErrorStatus } from "./todos";
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 
 interface Props {
   todo: Partial<Todo>;
   onAddOrUpdate: Function;
 }
 
-export default class TodoForm extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      todo: props.todo,
-      types: TYPES,
-      errors: {
-        status: false,
-      },
-    };
+export const TodoForm: FunctionComponent<Props> = (props: Props) => {
+  const [todo, setTodo] = useState<Partial<Todo>>(props.todo);
+  const [types] = useState<string[]>(TYPES);
+  const [errors, setErrors] = useState<TodoErrorStatus>({ status: false });
 
-    this.formChangeHandler = this.formChangeHandler.bind(this);
-    this.updateTodoHandler = this.updateTodoHandler.bind(this);
-  }
-
-  formChangeHandler(event: any) {
+  const formChangeHandler = (event: any) => {
     const target = event.target;
     const name = target.name;
     let value: boolean;
@@ -40,192 +48,172 @@ export default class TodoForm extends React.Component<Props, State> {
         value = target.value;
         break;
     }
+    setTodo({
+      ...Object.assign(todo, { [name]: value }),
+    });
+  };
 
-    this.setState((prevState) => ({
-      todo: {
-        ...prevState.todo,
-        [name]: value,
-      },
-    }));
-  }
+  const updateTodoDateHandler = (date: any) => {
+    setTodo({
+      ...Object.assign(todo, { date: format(date, "yyyy-MM-dd") }),
+    });
+  };
 
-  updateTodoHandler(event: React.FormEvent) {
+  const updateTodoHandler = (event: React.FormEvent) => {
     event.preventDefault();
-    this.setState({ errors: { status: false } });
-    if (!this.state.todo.name) {
-      this.setState((prevState) => ({
-        errors: {
-          ...prevState.errors,
+    setErrors({ status: false });
+    if (!todo.name) {
+      setErrors({
+        ...Object.assign(errors, {
           name: "Name is required.",
           status: true,
-        },
-      }));
+        }),
+      });
     }
-    if (!this.state.todo.description) {
-      this.setState((prevState) => ({
-        errors: {
-          ...prevState.errors,
+    if (!todo.description) {
+      setErrors({
+        ...Object.assign(errors, {
           description: "Description is required.",
           status: true,
-        },
-      }));
+        }),
+      });
     }
-    if (!this.state.todo.type) {
-      this.setState((prevState) => ({
-        errors: {
-          ...prevState.errors,
+    if (!todo.type) {
+      setErrors({
+        ...Object.assign(errors, {
           type: "Type is required.",
           status: true,
-        },
-      }));
+        }),
+      });
     }
-    if (!this.state.todo.date) {
-      this.setState((prevState) => ({
-        errors: {
-          ...prevState.errors,
+    if (!todo.date) {
+      setErrors({
+        ...Object.assign(errors, {
           date: "Date is required.",
           status: true,
-        },
-      }));
+        }),
+      });
     }
-
     setTimeout(() => {
-      if (!this.state.errors.status) {
-        this.props.onAddOrUpdate(this.state.todo);
+      if (!errors.status) {
+        props.onAddOrUpdate(todo);
       } else {
         alert("All Fields are required");
       }
     });
-  }
+  };
 
-  render() {
-    return (
-      <>
-        <h4>{this.state.todo.id ? "Update" : "Add"} Todo</h4>
-        <form onSubmit={this.updateTodoHandler} noValidate>
-          <table>
-            <tbody>
-              <tr>
-                <th align="left">
-                  <label htmlFor="name">Name</label>
-                </th>
-                <td>
-                  <input
-                    id="name"
-                    type="text"
-                    name="name"
-                    onChange={this.formChangeHandler}
-                    value={this.state.todo.name}
-                    required
-                  />
-                </td>
-                <td>{this.state.errors.name}</td>
-              </tr>
-              <tr>
-                <th align="left">
-                  <label htmlFor="description">description</label>
-                </th>
-                <td>
-                  <textarea
-                    id="description"
-                    name="description"
-                    onChange={this.formChangeHandler}
-                    value={this.state.todo.description}
-                    required
-                  ></textarea>
-                </td>
-                <td>{this.state.errors.description}</td>
-              </tr>
-              <tr>
-                <th align="left">
-                  <label>Type</label>
-                </th>
-                <td>
-                  <select
-                    id="type"
-                    name="type"
-                    onChange={this.formChangeHandler}
-                    value={this.state.todo.type}
-                    required
-                  >
-                    {this.state.types.map((type: string) => (
-                      <option value={type} key={type}>
-                        {type}
-                      </option>
-                    ))}
-                  </select>
-                </td>
-                <td>{this.state.errors.type}</td>
-              </tr>
-              <tr>
-                <th align="left">
-                  <label>Confidential</label>
-                </th>
-                <td>
-                  <label htmlFor="confidential1">Yes</label>
-                  <input
-                    id="confidential1"
-                    type="radio"
-                    name="confidential"
+  return (
+    <>
+      <form onSubmit={updateTodoHandler} noValidate>
+        <Dialog open={!!todo}>
+          <DialogTitle>{todo.id ? "Update" : "Add"} Todo</DialogTitle>
+          <DialogContent>
+            <div>
+              <TextField
+                label="Name"
+                variant="filled"
+                name="name"
+                onChange={formChangeHandler}
+                value={todo.name}
+                helperText={errors.name}
+                required
+              />
+            </div>
+            <br />
+            <div>
+              <TextField
+                label="Description"
+                variant="filled"
+                name="description"
+                onChange={formChangeHandler}
+                value={todo.description}
+                helperText={errors.description}
+                required
+                multiline
+              />
+            </div>
+            <br />
+            <div>
+              <FormControl>
+                <InputLabel>Type</InputLabel>
+                <Select
+                  id="type"
+                  name="type"
+                  onChange={formChangeHandler}
+                  value={todo.type}
+                  required
+                >
+                  {types.map((type: string) => (
+                    <MenuItem value={type} key={type}>
+                      {type}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText>{errors.type}</FormHelperText>
+              </FormControl>
+            </div>
+            <br />
+            <div>
+              <FormControl>
+                <FormLabel>Confidential</FormLabel>
+                <RadioGroup
+                  name="confidential"
+                  row
+                  value={todo.confidential}
+                  onChange={formChangeHandler}
+                >
+                  <FormControlLabel
                     value="Yes"
-                    onChange={this.formChangeHandler}
-                    checked={this.state.todo.confidential === "Yes"}
+                    control={<Radio />}
+                    label="Yes"
+                    checked={todo.confidential === "Yes"}
                   />
-                  <label htmlFor="confidential2">No</label>
-                  <input
-                    id="confidential2"
-                    type="radio"
-                    name="confidential"
+                  <FormControlLabel
                     value="No"
-                    onChange={this.formChangeHandler}
-                    checked={this.state.todo.confidential === "No"}
+                    control={<Radio />}
+                    label="No"
+                    checked={todo.confidential === "No"}
                   />
-                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <th align="left">
-                  <label>Remind</label>
-                </th>
-                <td>
-                  <label htmlFor="remind">Yes</label>
-                  <input
-                    id="remind"
-                    type="checkbox"
+                </RadioGroup>
+              </FormControl>
+            </div>
+            <br />
+            <div>
+              <FormControlLabel
+                control={
+                  <Checkbox
                     name="remind"
-                    onChange={this.formChangeHandler}
-                    checked={this.state.todo.remind}
+                    onChange={formChangeHandler}
+                    checked={todo.remind}
                   />
-                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <th align="left">
-                  <label htmlFor="date">Date</label>
-                </th>
-                <td>
-                  <input
-                    id="date"
-                    type="date"
-                    name="date"
-                    onChange={this.formChangeHandler}
-                    value={this.state.todo.date}
-                    required
-                  />
-                </td>
-                <td>{this.state.errors.date}</td>
-              </tr>
-              <tr>
-                <th colSpan={2} align="right">
-                  <button type="submit">
-                    {this.state.todo.id ? "Update" : "Add"}
-                  </button>
-                </th>
-              </tr>
-            </tbody>
-          </table>
-        </form>
-      </>
-    );
-  }
-}
+                }
+                label="Remind"
+              />
+            </div>
+            <br />
+            <div>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  name="date"
+                  format="yyyy-MM-dd"
+                  label="Date"
+                  value={todo.date}
+                  onChange={updateTodoDateHandler}
+                  required
+                />
+              </MuiPickersUtilsProvider>
+            </div>
+          </DialogContent>
+          <DialogActions>
+            <Button color="primary" onClick={updateTodoHandler}>
+              {todo.id ? "Update" : "Add"}
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </form>
+    </>
+  );
+};
+
+export default TodoForm;

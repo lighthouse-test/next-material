@@ -1,10 +1,12 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import Head from "next/head";
+import Layout from "../components/Layout";
+import Typography from "@material-ui/core/Typography";
 import Todos from "../components/Todos";
 import dynamic from "next/dynamic";
 
-export default class Index extends React.Component {
-  getTodoComponent() {
+export const Index: FunctionComponent = () => {
+  const getTodoComponent = () => {
     if (process.env.MODE === "spa") {
       const NoSSRTodos = dynamic(() => import("../components/Todos"), {
         ssr: false,
@@ -13,18 +15,22 @@ export default class Index extends React.Component {
     } else {
       return <Todos />;
     }
-  }
+  };
 
-  render() {
-    return (
+  return (
+    <Layout>
       <>
         <Head>
-          <title>Lighthouse Test | Next</title>
-          <meta name="description" content="Lighthouse Test | Next" />
+          <title>Lighthouse Test | Next Material</title>
+          <meta name="description" content="Lighthouse Test | Next Material" />
         </Head>
-        <h2>Home</h2>
-        {this.getTodoComponent()}
+        <Typography variant="h4" component="h2">
+          Home
+        </Typography>
+        {getTodoComponent()}
       </>
-    );
-  }
-}
+    </Layout>
+  );
+};
+
+export default Index;

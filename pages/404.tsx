@@ -1,7 +1,8 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
+import Typography from "@material-ui/core/Typography";
 
-export default class Index extends React.Component {
-  render() {
-    return <h2>Seems like this page doesn't exist :(</h2>;
-  }
-}
+export const Index: FunctionComponent = () => {
+  return <Typography variant="h2">Seems like this page doesn't exist :(</Typography>;
+};
+
+export default Index;

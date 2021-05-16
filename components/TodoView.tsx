@@ -1,69 +1,76 @@
-import React from "react";
+import React, { FunctionComponent, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
 import { Todo } from "./todos";
-
-interface State {
-  todo: Partial<Todo>;
-}
 
 interface Props {
   todo: Partial<Todo>;
   onClose: Function;
 }
 
-export default class TodoForm extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      todo: props.todo,
-    };
+export const TodoForm: FunctionComponent<Props> = (props: Props) => {
+  const [todo] = useState<Partial<Todo>>(props.todo);
 
-    this.closeTodoHandler = this.closeTodoHandler.bind(this);
-  }
+  const closeTodoHandler = () => {
+    props.onClose();
+  };
 
-  closeTodoHandler() {
-    this.props.onClose();
-  }
+  const useStyles = makeStyles({
+    root: {
+      minWidth: 275,
+    },
+    bullet: {
+      display: "inline-block",
+      margin: "0 2px",
+      transform: "scale(0.8)",
+    },
+    title: {
+      fontSize: 14,
+    },
+    pos: {
+      marginBottom: 12,
+    },
+  });
 
-  render() {
-    return (
-      <>
-        <h4>Todo</h4>
-        <table>
-          <tbody>
-            <tr>
-              <th align="left">Name</th>
-              <td>{this.state.todo.name}</td>
-            </tr>
-            <tr>
-              <th align="left">Description</th>
-              {this.state.todo.description}
-            </tr>
-            <tr>
-              <th align="left">Type</th>
-              <td>{this.state.todo.type}</td>
-            </tr>
-            <tr>
-              <th align="left">Confidential</th>
-              <td>{this.state.todo.confidential}</td>
-            </tr>
-            <tr>
-              <th align="left">Remind</th>
-              <td>{this.state.todo.remind?.toString()}</td>
-            </tr>
-            <tr>
-              <th align="left">Date</th>
-              <td>{this.state.todo.date}</td>
-            </tr>
-            <tr>
-              <th colSpan={2} align="right">
-                <button type="button" onClick={this.closeTodoHandler}>
-                  Close
-                </button>
-              </th>
-            </tr>
-          </tbody>
-        </table>
-      </>
-    );
-  }
-}
+  const classes = useStyles();
+
+  return (
+    <>
+      <Card className={classes.root}>
+        <CardContent>
+          <Typography variant="h4">Todo</Typography>
+          <Divider />
+          <br />
+          <dl>
+            <dt>Name</dt>
+            <dd>{todo.name}</dd>
+            <dt>Description</dt>
+            <dd>{todo.description}</dd>
+            <dt>Type</dt>
+            <dd>{todo.type}</dd>
+            <dt>Confidential</dt>
+            <dd>{todo.confidential}</dd>
+            <dt>Remind</dt>
+            <dd>{todo.remind}</dd>
+            <dt>Date</dt>
+            <dd>{todo.date}</dd>
+          </dl>
+          <br />
+          <Divider />
+        </CardContent>
+        <CardActions>
+          <Button type="button" onClick={closeTodoHandler}>
+            Close
+          </Button>
+        </CardActions>
+      </Card>
+    </>
+  );
+};
+
+export default TodoForm;
