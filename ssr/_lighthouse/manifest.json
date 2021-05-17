@@ -1,0 +1,41 @@
+[
+  {
+    "url": "http://localhost:3000/",
+    "isRepresentativeRun": false,
+    "htmlPath": "/home/runner/work/next-material/next-material/.next/_lighthouse/_.report.html",
+    "jsonPath": "/home/runner/work/next-material/next-material/.next/_lighthouse/_.report.json",
+    "summary": {
+      "performance": 0.74,
+      "accessibility": 0.93,
+      "best-practices": 1,
+      "seo": 1,
+      "pwa": 0.2
+    }
+  },
+  {
+    "url": "http://localhost:3000/",
+    "isRepresentativeRun": false,
+    "htmlPath": "/home/runner/work/next-material/next-material/.next/_lighthouse/_.report.html",
+    "jsonPath": "/home/runner/work/next-material/next-material/.next/_lighthouse/_.report.json",
+    "summary": {
+      "performance": 0.97,
+      "accessibility": 0.93,
+      "best-practices": 1,
+      "seo": 1,
+      "pwa": 0.2
+    }
+  },
+  {
+    "url": "http://localhost:3000/",
+    "isRepresentativeRun": true,
+    "htmlPath": "/home/runner/work/next-material/next-material/.next/_lighthouse/_.report.html",
+    "jsonPath": "/home/runner/work/next-material/next-material/.next/_lighthouse/_.report.json",
+    "summary": {
+      "performance": 0.98,
+      "accessibility": 0.93,
+      "best-practices": 1,
+      "seo": 1,
+      "pwa": 0.2
+    }
+  }
+]
