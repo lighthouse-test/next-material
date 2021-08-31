@@ -28,6 +28,7 @@ import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 interface Props {
   todo: Partial<Todo>;
   onAddOrUpdate: Function;
+  onCancel: Function;
 }
 
 export const TodoForm: FunctionComponent<Props> = (props: Props) => {
@@ -103,10 +104,14 @@ export const TodoForm: FunctionComponent<Props> = (props: Props) => {
     });
   };
 
+  const cancelTodoHandler = () => {
+    props.onCancel();
+  };
+
   return (
     <>
       <form onSubmit={updateTodoHandler} noValidate>
-        <Dialog open={!!todo}>
+        <Dialog open={!!todo} onClose={cancelTodoHandler}>
           <DialogTitle>{todo.id ? "Update" : "Add"} Todo</DialogTitle>
           <DialogContent>
             <div>

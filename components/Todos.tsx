@@ -68,7 +68,7 @@ export const Todos: FunctionComponent = () => {
         <TodoView todo={currentTodo} onClose={() => setCurrentEvent(null)} />
       )}
       {currentTodo && currentEvent === "edit" && (
-        <TodoForm todo={currentTodo} onAddOrUpdate={onUpdateTodoHandler} />
+        <TodoForm todo={currentTodo} onAddOrUpdate={onUpdateTodoHandler} onCancel={() => setCurrentEvent(null)} />
       )}
       <br />
       <Table>
