@@ -5,7 +5,7 @@
     "htmlPath": "/home/runner/work/next-material/next-material/.next/_lighthouse/_.report.html",
     "jsonPath": "/home/runner/work/next-material/next-material/.next/_lighthouse/_.report.json",
     "summary": {
-      "performance": 0.84,
+      "performance": 0.85,
       "accessibility": 0.93,
       "best-practices": 1,
       "seo": 1,

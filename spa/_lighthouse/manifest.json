@@ -1,6 +1,6 @@
 [
   {
-    "url": "http://localhost:39941/",
+    "url": "http://localhost:36113/",
     "isRepresentativeRun": false,
     "htmlPath": "/home/runner/work/next-material/next-material/out/_lighthouse/_.report.html",
     "jsonPath": "/home/runner/work/next-material/next-material/out/_lighthouse/_.report.json",
@@ -13,12 +13,12 @@
     }
   },
   {
-    "url": "http://localhost:39941/",
+    "url": "http://localhost:36113/",
     "isRepresentativeRun": false,
     "htmlPath": "/home/runner/work/next-material/next-material/out/_lighthouse/_.report.html",
     "jsonPath": "/home/runner/work/next-material/next-material/out/_lighthouse/_.report.json",
     "summary": {
-      "performance": 0.97,
+      "performance": 0.98,
       "accessibility": 0.93,
       "best-practices": 1,
       "seo": 0.92,
@@ -26,12 +26,12 @@
     }
   },
   {
-    "url": "http://localhost:39941/",
+    "url": "http://localhost:36113/",
     "isRepresentativeRun": true,
     "htmlPath": "/home/runner/work/next-material/next-material/out/_lighthouse/_.report.html",
     "jsonPath": "/home/runner/work/next-material/next-material/out/_lighthouse/_.report.json",
     "summary": {
-      "performance": 0.9,
+      "performance": 0.98,
       "accessibility": 0.93,
       "best-practices": 1,
       "seo": 0.92,
