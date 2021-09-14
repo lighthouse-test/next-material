@@ -54,7 +54,6 @@ export const Layout: FunctionComponent<Props> = ({ children }) => {
   const classes = useStyles();
 
   const handleDrawerToggle = () => {
-    console.log(!drawer);
     setDrawer(!drawer);
   };
 
